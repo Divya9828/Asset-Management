@@ -7,7 +7,7 @@ const cors=require('cors')
 
 // local module
 const employeeRoutes = require('./routes/employeeRoutes');
-// const assetRoutes = require('./routes/assetRoutes');
+const assetRoutes = require('./routes/assetRoutes');
 // const assetCategory = require('./routes/assetCategoryRoute');
 
 const sequelize = require('./config/db');
@@ -21,7 +21,7 @@ app.use(cors())
 
 // Define routes
 app.use('/employees', employeeRoutes);
-// app.use('/assets', assetRoutes);
+app.use('/assets', assetRoutes);
 // app.use('/assetcategory', assetCategory);
 
 

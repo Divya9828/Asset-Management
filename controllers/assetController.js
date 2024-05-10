@@ -1,67 +1,66 @@
-// controllers/employeeController.js
-const Employee = require('../models/employee');
+const Asset = require('../models/asset');
 
-// Get all employees
-exports.getAllEmployees = async (req, res) => {
+// Get all assets
+exports.getAllAssets = async (req, res) => {
   try {
-    const employees = await Employee.findAll();
-    res.json(employees);
+    const assets = await Asset.findAll();
+    res.json(assets);
   } catch (error) {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
 
-// Get employee by ID
-exports.getEmployeeById = async (req, res) => {
-  const { id } = req.params;
+// Get asset by ID
+exports.getAssetById = async (req, res) => {
+  const { id } = req.query;
   try {
-    const employee = await Employee.findByPk(id);
-    if (!employee) {
-      return res.status(404).json({ error: 'Employee not found' });
+    const asset = await Asset.findByPk(id);
+    if (!asset) {
+      return res.status(404).json({ error: 'Asset not found' });
     }
-    res.json(employee);
+    res.json(asset);
   } catch (error) {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
 
-// Create new employee
-exports.createEmployee = async (req, res) => {
-  const { firstName, lastName } = req.body;
+// Create new asset
+exports.createAsset = async (req, res) => {
+  const { serialNumber,branch,employeeId,value } = req.body;
   try {
-    const employee = await Employee.create({ firstName, lastName });
-    res.status(201).json(employee);
+    const asset = await Asset.create({ serialNumber,branch,employeeId,value });
+    res.status(201).json(asset);
   } catch (error) {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
 
-// Update employee by ID
-exports.updateEmployee = async (req, res) => {
-  const { id } = req.params;
-  const { firstName, lastName } = req.body;
+// Update asset by ID
+exports.updateAsset = async (req, res) => {
+  const { id } = req.query;
+  const { serialNumber,branch,employeeId,value,status } = req.body;
   try {
-    let employee = await Employee.findByPk(id);
-    if (!employee) {
-      return res.status(404).json({ error: 'Employee not found' });
+    let asset = await Asset.findByPk(id);
+    if (!asset) {
+      return res.status(404).json({ error: 'Asset not found' });
     }
-    employee = await employee.update({ firstName, lastName });
-    res.json(employee);
+    asset = await asset.update({ serialNumber,branch,employeeId,value,status });
+    res.json(asset);
   } catch (error) {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
 
-// Delete employee by ID
-exports.deleteEmployee = async (req, res) => {
-  const { id } = req.params;
+// Delete asset by ID
+exports.deleteAsset = async (req, res) => {
+  const { id } = req.query;
   try {
-    const employee = await Employee.findByPk(id);
-    if (!employee) {
-      return res.status(404).json({ error: 'Employee not found' });
+    const asset = await Asset.findByPk(id);
+    if (!asset) {
+      return res.status(404).json({ error: 'Asset not found' });
     }
-    await employee.destroy();
-    res.json({ message: 'Employee deleted successfully' });
+    await asset.destroy();
+    res.json({ message: 'Asset deleted successfully' });
   } catch (error) {
     res.status(500).json({ error: 'Internal Server Error' });
   }
