@@ -86,7 +86,7 @@ exports.getStockView =  (req, res) => {
 
 // asset return and update 
 exports.returnAsset= (req, res) => {
-  const { id, reason } = req.body;
+  const { id, reason } = req.query;
   try {
     // Update asset status to indicate it's returned
     const asset =  Asset.findByPk(id);

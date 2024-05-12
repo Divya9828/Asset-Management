@@ -10,7 +10,7 @@ router.post('/createAsset', createAsset);
 router.put('/updateAsset', updateAsset);
 router.delete('/deleteAsset', deleteAsset);
 router.get('/getStockView', getStockView);
-router.get('/return',returnAsset)
+router.put('/returnAsset',returnAsset)
 
 
 module.exports = router;
