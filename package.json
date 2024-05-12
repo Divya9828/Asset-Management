@@ -1,0 +1,30 @@
+{
+  "name": "asset-management",
+  "version": "1.0.0",
+  "description": "Crud operation in Asset Management",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Divya9828/Asset-Management.git"
+  },
+  "author": "Divya",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Divya9828/Asset-Management/issues"
+  },
+  "homepage": "https://github.com/Divya9828/Asset-Management#readme",
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "nodemon": "^3.1.0",
+    "pg": "^8.11.5",
+    "sequelize": "^6.37.3",
+    "sequelize-cli": "^6.6.2"
+  }
+}
