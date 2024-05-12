@@ -1,20 +1,20 @@
 // models/asset.js
-const { DataTypes } = require('sequelize');
-const sequelize = require('../config/db');
+const { DataTypes } = require("sequelize");
+const sequelize = require("../config/db");
 
-const AssetHistory = sequelize.define('AssetHistory', {
+const AssetHistory = sequelize.define("AssetHistory", {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
-    autoIncrement: true
+    autoIncrement: true,
   },
-  reason:{
-    type:DataTypes.STRING
+  reason: {
+    type: DataTypes.STRING,
   },
-  action:{
-    type:DataTypes.STRING,
-    defaultValue:'not return'
-  }
+  action: {
+    type: DataTypes.STRING,
+    defaultValue: "not  ",
+  },
   // Add more fields as needed
 });
 

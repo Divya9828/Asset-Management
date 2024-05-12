@@ -15,7 +15,7 @@ exports.getAssetById = (req, res) => {
   try {
     const { id } = req.query;
     const getAssetById = AssetHistory.findByPk(id);
-    return res.json(getAssetById);
+    res.json(getAssetById);
   } catch (error) {
     res.status(500).json({ error: "internal server error" });
   }
@@ -24,48 +24,41 @@ exports.getAssetById = (req, res) => {
 // insert data
 exports.createAsset = (req, res) => {
   try {
-    const {reason,action}  = req.body;
-    const createAsset = AssetHistory.create(reason,action);
-        return res.json(createAsset);
+    const { reason, action } = req.body;
+    const createAsset = AssetHistory.create(reason, action);
+    res.json(createAsset);
   } catch (error) {
     res.status(500).json({ error: "internal server error" });
   }
 };
 
 // update data
-exports.updateAsset=(req,res)=>{
-    try
-    {
-        const {id}=req.query;
-        const {reason,action}  = req.body;
-        let assetUpdate =  AssetHistory.findByPk(id);
-        if (!assetUpdate) {
-        return res.status(404).json({ error: 'asset id  not found' });
-        }
-        assetUpdate.update({reason,action});
-        return res.json('updated success');
-        }
-    catch(error)
-    {
-        res.status(500).json('internal server error')
+exports.updateAsset = (req, res) => {
+  try {
+    const { id } = req.query;
+    const { reason, action } = req.body;
+    let assetUpdate = AssetHistory.findByPk(id);
+    if (!assetUpdate) {
+      res.status(404).json({ error: "asset id  not found" });
     }
-}
+    assetUpdate.update({ reason, action });
+    res.json("updated success");
+  } catch (error) {
+    res.status(500).json("internal server error");
+  }
+};
 
 // delete data
-exports.deleteAsset=(req,res)=>{
-    try
-    {
-        const {id}=req.query;
-        let assetDelete =  AssetHistory.findByPk(id);
-        if (!assetDelete) {
-        return res.status(404).json({ error: 'asset id  not found' });
-        }
-        assetDelete.destroy();
-        res.json('deleted success');
-        
+exports.deleteAsset = (req, res) => {
+  try {
+    const { id } = req.query;
+    let assetDelete = AssetHistory.findByPk(id);
+    if (!assetDelete) {
+      res.status(404).json({ error: "asset id  not found" });
     }
-    catch(errorr)
-    {
-        res.status(500).json('internal server error')
-    }
-}
+    assetDelete.destroy();
+    res.json("deleted success");
+  } catch (errorr) {
+    res.status(500).json("internal server error");
+  }
+};

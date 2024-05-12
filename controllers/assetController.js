@@ -1,108 +1,110 @@
-const Asset = require('../models/asset');
-const AssetHistory=require('../models/assethistory')
-const sequelize=require('sequelize')
+const Asset = require("../models/asset");
+const AssetHistory = require("../models/assethistory");
+const sequelize = require("sequelize");
 // Get all assets
-exports.getAllAssets = async (req, res) => {
+exports.getAllAssets = (req, res) => {
   try {
-    const assets = await Asset.findAll();
+    const assets = Asset.findAll();
     res.json(assets);
   } catch (error) {
-    res.status(500).json({ error: 'Internal Server Error' });
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };
 
 // Get asset by ID
-exports.getAssetById = async (req, res) => {
+exports.getAssetById = (req, res) => {
   const { id } = req.query;
   try {
-    const asset = await Asset.findByPk(id);
+    const asset = Asset.findByPk(id);
     if (!asset) {
-      return res.status(404).json({ error: 'Asset not found' });
+      res.status(404).json({ error: "Asset not found" });
     }
     res.json(asset);
   } catch (error) {
-    res.status(500).json({ error: 'Internal Server Error' });
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };
 
 // Create new asset
-exports.createAsset = async (req, res) => {
-  const { serialNumber,branch,employeeId,value } = req.body;
+exports.createAsset = (req, res) => {
+  const { serialNumber, branch, employeeId, value } = req.body;
   try {
-    const asset = await Asset.create({ serialNumber,branch,employeeId,value });
+    const asset = Asset.create({ serialNumber, branch, employeeId, value });
     res.status(201).json(asset);
   } catch (error) {
-    res.status(500).json({ error: 'Internal Server Error' });
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };
 
 // Update asset by ID
-exports.updateAsset = async (req, res) => {
+exports.updateAsset = (req, res) => {
   const { id } = req.query;
-  const { serialNumber,branch,employeeId,value,status } = req.body;
+  const { serialNumber, branch, employeeId, value, status } = req.body;
   try {
-    let asset = await Asset.findByPk(id);
+    let asset = Asset.findByPk(id);
     if (!asset) {
-      return res.status(404).json({ error: 'Asset not found' });
+      res.status(404).json({ error: "Asset not found" });
     }
-    asset = await asset.update({ serialNumber,branch,employeeId,value,status });
+    asset = asset.update({ serialNumber, branch, employeeId, value, status });
     res.json(asset);
   } catch (error) {
-    res.status(500).json({ error: 'Internal Server Error' });
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };
 
 // Delete asset by ID
-exports.deleteAsset = async (req, res) => {
+exports.deleteAsset = (req, res) => {
   const { id } = req.query;
   try {
-    const asset = await Asset.findByPk(id);
+    const asset = Asset.findByPk(id);
     if (!asset) {
-      return res.status(404).json({ error: 'Asset not found' });
+      res.status(404).json({ error: "Asset not found" });
     }
-    await asset.destroy();
-    res.json({ message: 'Asset deleted successfully' });
+    asset.destroy();
+    res.json({ message: "Asset deleted successfully" });
   } catch (error) {
-    res.status(500).json({ error: 'Internal Server Error' });
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };
 
 // stock view
-exports.getStockView =  (req, res) => {
+exports.getStockView = (req, res) => {
   console.log("fun call");
   try {
-    const stockByBranch =  Asset.findAll({
-      attributes: ['branch', [sequelize.fn('count', sequelize.col('id')), 'total']],
-      where: { status: 'available' },
-      group: ['branch'],
+    const stockByBranch = Asset.findAll({
+      attributes: [
+        "branch",
+        [sequelize.fn("count", sequelize.col("id")), "total"],
+      ],
+      where: { status: "available" },
+      group: ["branch"],
     });
-    const totalValue =  Asset.sum('value', { where: { status: 'available' } });
-    
-     res.json({ 'stockByBranch':stockByBranch, 'totalValue':totalValue });
+    const totalValue = Asset.sum("value", { where: { status: "available" } });
+
+    res.json({ stockByBranch: stockByBranch, totalValue: totalValue });
   } catch (error) {
-    res.status(500).send({error:'Internal Server Error'});
+    res.status(500).send({ error: "Internal Server Error" });
   }
 };
 
-// asset return and update 
-exports.returnAsset= (req, res) => {
+// asset   and update
+exports.Asset = (req, res) => {
   const { id, reason } = req.query;
   try {
-    // Update asset status to indicate it's returned
-    const asset =  Asset.findByPk(id);
+    // Update asset status to indicate it's  ed
+    const asset = Asset.findByPk(id);
     if (!asset) {
-      return res.status(404).json({ error: 'Asset not found' });
+      res.status(404).json({ error: "Asset not found" });
     }
-    asset.status = 'available';
-     asset.save();
+    asset.status = "available";
+    asset.save();
 
-    // Log the reason for return
+    // Log the reason for
     // Assuming there's a separate table for asset history
-     AssetHistory.create({ id, action: 'return', reason });
+    AssetHistory.create({ id, action: " ", reason });
 
-    res.json({ message: 'Asset returned successfully' });
+    res.json({ message: "Asset  ed successfully" });
   } catch (error) {
-    res.status(500).json({ error: 'Internal Server Error' });
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };
-
