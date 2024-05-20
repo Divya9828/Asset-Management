@@ -46,8 +46,11 @@ app.use((req, res, next) => {
 app.get('/',(req,res)=>{
   res.render('employees/layout')
 })
+app.get('/asset',(req,res)=>{
+  res.render('assests/layout')
+})
 app.use('/employees', employeeRoutes);
-// app.use('/assets', assetRoutes);
+app.use('/assets', assetRoutes);
 // app.use('/assetcategory', assetCategory);
 // app.use('/assethistory', assetHistory);
 

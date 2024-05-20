@@ -1,10 +1,10 @@
 const AssetCategory = require("../models/assetcategory");
 
 // GET ALL DATA
-exports.getAllAssets = (req, res) => {
+exports.getAllAssets = async (req, res) => {
   try {
-    const getallAsset = AssetCategory.findAll();
-    res.json(getallAsset);
+    const getallAsset = await AssetCategory.findAll();
+    res.render('assests/assetsview',{getallAsset});
   } catch (error) {
     res.status(500).json({ error: "Internal ServeR eRROR" });
   }
