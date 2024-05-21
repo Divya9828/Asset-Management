@@ -4,7 +4,9 @@ const router = express.Router();
 const {
   getAllAssets,
   getAssetById,
+  renderAddAsset,
   createAsset,
+  renderEditAssetForm,
   updateAsset,
   deleteAsset,
   getStockView,
@@ -12,12 +14,19 @@ const {
 } = require("../controllers/assetController");
 
 // Define routes for CRUD operations on assets
-router.get("/getAllAssets", getAllAssets);
+router.get("/", getAllAssets);
 router.get("/getAssetById", getAssetById);
-router.post("/createAsset", createAsset);
-router.put("/updateAsset", updateAsset);
-router.delete("/deleteAsset", deleteAsset);
+
+router.get('/add',renderAddAsset)    
+router.post("/", createAsset);
+
+router.get('/:id/edit', renderEditAssetForm);
+router.put("/:id", updateAsset);
+
+router.delete("/:id", deleteAsset);
+
 router.get("/getStockView", getStockView);
+
 router.put("/ Asset", Asset);
 
 module.exports = router;

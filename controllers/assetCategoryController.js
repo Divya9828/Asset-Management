@@ -1,14 +1,17 @@
 const AssetCategory = require("../models/assetcategory");
 
-// GET ALL DATA
-exports.getAllAssets = (req, res) => {
+// controllers/assetCategoryController.js
+exports.getAllAssets = async (req, res) => {
   try {
-    const getallAsset = AssetCategory.findAll();
-    res.json(getallAsset);
+    const getallAsset = await AssetCategory.findAll();
+    console.log(getallAsset); // Log the data to verify it
+    res.render('assetcategory/view', { getallAsset });
   } catch (error) {
-    res.status(500).json({ error: "Internal ServeR eRROR" });
+    console.error(error); // Log the error for debugging purposes
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };
+
 
 // GET PARTICULAR DATA
 exports.getAssetById = (req, res) => {
@@ -21,44 +24,66 @@ exports.getAssetById = (req, res) => {
   }
 };
 
+exports.renderAddAstCat=(req,res)=>{
+  res.render('assetcategory/add')
+}
 // insert data
-exports.createAsset = (req, res) => {
+exports.createAsset =async  (req, res) => {
   try {
     const { name, category } = req.body;
-    const createAsset = AssetCategory.create({ name, category });
-    res.json(createAsset);
+    const createAsset = await AssetCategory.create({ name, category });
+    req.flash('success_msg', 'successfully added')
+    res.redirect('assetcategory/view')
   } catch (error) {
-    res.status(500).json({ error: "internal server error" });
+    req.flash('error_msg', 'something went wrong')
+    res.redirect('assetcategory/view')
   }
 };
 
-// update data
-exports.updateAsset = (req, res) => {
+
+exports.renderEditAstForm=async (req,res)=>{
   try {
-    const { id } = req.query;
-    const { name, category } = req.body;
-    let assetUpdate = AssetCategory.findByPk(id);
-    if (!assetUpdate) {
-      res.status(404).json({ error: "asset id  not found" });
+    const getallAsset = await AssetCategory.findByPk(req.params.id);
+    if (!getallAsset) {
+      req.flash('error_msg', 'Employee not found');
+      return res.redirect('assetcategory/layout');
     }
-    assetUpdate.update({ name, category });
-    res.json("updated success");
+    res.render('assetcategory/edit', { getallAsset });
   } catch (error) {
-    res.status(500).json("internal server error");
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+}
+// update data
+exports.updateAsset =async (req, res) => {
+  try {
+    const asset = await AssetCategory.findByPk(req.params.id);
+    if (!asset) {
+      req.flash('error_msg', 'asset not found');
+      return res.render('assetcategory/layout');
+    }
+    await asset.update(req.body);
+    req.flash('success_msg', 'asset updated successfully');
+    res.render('assetcategory/view');
+  } catch (error) {
+    req.flash('error_msg', 'Failed to update asset');
+    res.render(`assetcategory/layout`);
   }
 };
 
 // delete data
-exports.deleteAsset = (req, res) => {
+exports.deleteAsset = async (req, res) => {
   try {
-    const { id } = req.query;
-    let assetDelete = AssetCategory.findByPk(id);
+    const { id } = req.params;
+    let assetDelete = await AssetCategory.findByPk(id);
     if (!assetDelete) {
-      res.status(404).json({ error: "asset id  not found" });
+      req.flash('error_msg', 'asset not found');
+       res.redirect('assetscategorys/layout');
     }
     assetDelete.destroy();
-    res.json("deleted success");
+    req.flash('success_msg', 'asset deleted');
+     res.redirect('/');
   } catch (errorr) {
-    res.status(500).json("internal server error");
+    req.flash('error_msg', 'asset not found');
+       res.redirect('assetscategorys');
   }
 };
