@@ -10,8 +10,8 @@ router.get('/:id', getAssetById);
 router.get('/add',renderAddHis)    
 router.post('/', createAsset);
 
-router.put('/updateAsset', updateAsset);
-router.delete('/deleteAsset', deleteAsset);
+router.put('/:id/edit', updateAsset);
+router.delete('/:id', deleteAsset);
 
 
 

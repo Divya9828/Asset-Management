@@ -14,9 +14,9 @@ exports.getAllAssets =async (req, res) => {
 };
 
 // GET PARTICULAR DATA
-exports.getAssetById = (req, res) => {
+exports.getAssetById = async (req, res) => {
   try {
-    const { id } = req.query;
+    const { id } = await req.query;
     const getAssetById = AssetHistory.findByPk(id);
     res.json(getAssetById);
   } catch (error) {
@@ -28,10 +28,10 @@ exports.renderAddHis=(req,res)=>{
   res.redirect('assethistory/add');
 }
 // insert data
-exports.createAsset = (req, res) => {
+exports.createAsset = async (req, res) => {
   try {
     const { reason, action } = req.body;
-    const createAsset = AssetHistory.create(reason, action);
+    const createAsset =await AssetHistory.create(reason, action);
     res.json(createAsset);
   } catch (error) {
     res.status(500).json({ error: "internal server error" });
@@ -39,11 +39,11 @@ exports.createAsset = (req, res) => {
 };
 
 // update data
-exports.updateAsset = (req, res) => {
+exports.updateAsset = async(req, res) => {
   try {
     const { id } = req.query;
     const { reason, action } = req.body;
-    let assetUpdate = AssetHistory.findByPk(id);
+    let assetUpdate =await AssetHistory.findByPk(id);
     if (!assetUpdate) {
       res.status(404).json({ error: "asset id  not found" });
     }
@@ -55,10 +55,10 @@ exports.updateAsset = (req, res) => {
 };
 
 // delete data
-exports.deleteAsset = (req, res) => {
+exports.deleteAsset = async (req, res) => {
   try {
     const { id } = req.query;
-    let assetDelete = AssetHistory.findByPk(id);
+    let assetDelete = await AssetHistory.findByPk(id);
     if (!assetDelete) {
       res.status(404).json({ error: "asset id  not found" });
     }
