@@ -1,12 +1,15 @@
 const AssetHistory = require("../models/assethistory");
 
 // GET ALL DATA
-exports.getAllAssets = (req, res) => {
+exports.getAllAssets =async (req, res) => {
   try {
-    const getallAsset = AssetHistory.findAll();
-    res.json(getallAsset);
+    const history = await AssetHistory.findAll({
+      order:[['id','ASC']]
+  });
+    // res.json(employees);
+    res.render('assethistory/view', { history })
   } catch (error) {
-    res.status(500).json({ error: "Internal ServeR eRROR" });
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };
 
@@ -21,6 +24,9 @@ exports.getAssetById = (req, res) => {
   }
 };
 
+exports.renderAddHis=(req,res)=>{
+  res.redirect('assethistory/add');
+}
 // insert data
 exports.createAsset = (req, res) => {
   try {

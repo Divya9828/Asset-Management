@@ -51,10 +51,13 @@ app.get('/asset',(req,res)=>{
 app.get('/assetscategory',(req,res)=>{
   res.render('assetcategory/layout')
 })
+app.get('/history',(req,res)=>{
+  res.render('assethistory/layout')
+})
 app.use('/employees', employeeRoutes);
 app.use('/assets', assetRoutes);
 app.use('/assetscategorys', assetCategory);
-// app.use('/assethistory', assetHistory);
+app.use('/assethistorys', assetHistory);
 
 
 // Sync database and start server
