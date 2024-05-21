@@ -15,7 +15,6 @@ const assetRoutes = require('./routes/assetRoutes');
 const assetCategory = require('./routes/assetCategoryRoute');
 const assetHistory = require('./routes/assetHistory');
 const employeeRoutes=require('./routes/employeeRoutes')
-// const view=require('./view/index.jade')
 
 
 const sequelize = require('./config/db');
@@ -49,9 +48,12 @@ app.get('/',(req,res)=>{
 app.get('/asset',(req,res)=>{
   res.render('assests/layout')
 })
+app.get('/assetscategory',(req,res)=>{
+  res.render('assetcategory/layout')
+})
 app.use('/employees', employeeRoutes);
 app.use('/assets', assetRoutes);
-// app.use('/assetcategory', assetCategory);
+app.use('/assetscategorys', assetCategory);
 // app.use('/assethistory', assetHistory);
 
 
